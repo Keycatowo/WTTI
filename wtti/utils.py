@@ -1,4 +1,7 @@
 from datetime import datetime
+import pytz
+tz = pytz.timezone('Asia/Taipei')
+
 
 def convert_to_timestamp(time_input):
     """
@@ -10,10 +13,12 @@ def convert_to_timestamp(time_input):
     """
     # datetime格式
     if isinstance(time_input, datetime):
+        # 考慮到有可能輸入的datetime沒有設定時區，所以這邊強制設定成台北時區
+        time_input = time_input.astimezone(tz)
         return int(time_input.timestamp())
     try:
         # timestamp格式
-        timestamp = datetime.fromtimestamp(int(time_input))
+        timestamp = datetime.fromtimestamp(int(time_input), tz=tz)
     except (ValueError, TypeError):
         try:
             # 常見的日期時間格式
