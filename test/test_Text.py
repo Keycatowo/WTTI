@@ -5,6 +5,8 @@ from random import randint
 from time import sleep
 import pandas as pd
 from datetime import datetime
+import dateutil
+tz = dateutil.tz.gettz('Asia/Taipei')
 
 #%%
 def test_text_content():
@@ -34,8 +36,7 @@ def test_published_time():
     # 測試輸入字串
     time = "2023-03-28 12:00:00"
     text = Text(published_time=time)
-    assert text.published_time == datetime.strptime(time, "%Y-%m-%d %H:%M:%S").timestamp()
-    
+    assert text.published_time == datetime.strptime(time, "%Y-%m-%d %H:%M:%S").replace(tzinfo=tz).timestamp()
 
 def test_likes():
     text = Text(likes=10)
