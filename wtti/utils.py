@@ -1,6 +1,6 @@
 from datetime import datetime
-import pytz
-tz = pytz.timezone('Asia/Taipei')
+import dateutil
+tz = dateutil.tz.gettz('Asia/Taipei')
 
 
 def convert_to_timestamp(time_input):
