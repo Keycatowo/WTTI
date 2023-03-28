@@ -3,6 +3,21 @@ import uuid
 from time import time
 
 class Content:
+    """
+    Content 為一個抽象類別, 用來定義一個內容物的基本屬性
+    並提供一個 to_series 方法, 用來轉換成 pandas.Series
+
+    Attributes:
+        uuid: 內容物的 uuid
+        created_timestamp: 內容物的建立時間
+        modified_timestamp: 內容物的最後修改時間
+        data: 內容物的資料
+    
+    Methods:
+        to_series: 將內容物轉換成 pandas.Series
+        
+    """
+    
     def __init__(self):
         self.uuid = uuid.uuid4()
         self.created_timestamp = int(time())
