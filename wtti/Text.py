@@ -31,6 +31,21 @@ class Text(Content):
             "url": url,
         })
         
+    def __repr__(self) -> str:
+        # 建立一個字串，用來儲存要回傳的內容
+        return_str = ""
+        # 將所有的data都列出來，不包含text_content
+        for key, value in self.data.items():
+            if key != "text_content":
+                return_str += f"{key}: {value} \n"
+        return_str += "-"*20
+        # 將text_content的內容列出來
+        return_str += f"\n{self.data['text_content']}"
+        return return_str
+        
+    def __str__(self) -> str:
+        return self.data["text_content"]
+        
     @property
     def text(self):
         return self.data["text_content"]
