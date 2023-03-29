@@ -20,7 +20,7 @@ class Text(Content):
         to_series: 將內容物轉換成 pandas.Series
     """
     
-    def __init__(self, text="", url="", author="", platform="", likes=-1, published_time=None):
+    def __init__(self, text="", url="", author="", platform="", likes=None, published_time=None):
         super().__init__()
         self.data.update({
             "text_content": text,
@@ -41,6 +41,7 @@ class Text(Content):
         return_str += "-"*20
         # 將text_content的內容列出來
         return_str += f"\n{self.data['text_content']}"
+        return_str += "\n"+ "="*20 + "\n\n"
         return return_str
         
     def __str__(self) -> str:
