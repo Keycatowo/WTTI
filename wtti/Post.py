@@ -25,6 +25,7 @@ class Post(Text):
         super().__init__(text=text, url=url, author=author, platform=platform, likes=likes, published_time=published_time)
         self.comments_count = 0 # 留言數量
         self.comments = [] # 留言列表
+        self.comments_uuid = [] # 留言的 uuid 列表
         self.data.update({
             "title": title,
             "category": category,
@@ -47,4 +48,7 @@ class Post(Text):
         self.comments.append(comment)
         # 留言數量 + 1
         self.comments_count += 1
+        # 將該留言的 uuid 加入內容物的留言 uuid 列表
+        self.comments_uuid.append(comment.uuid)
         return comment.uuid
+    
