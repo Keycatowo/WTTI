@@ -16,6 +16,7 @@ pip install WTTI
 + [x] 支援儲存的內容輸出成不同的格式
     + [x] DataFrame
     + [ ] Database
++ [x] 提供Proxy功能，避免被網站封鎖
 ## ✍️ 如何使用
 ```python
 from wtti import Post
@@ -110,7 +111,7 @@ comments_df.to_csv("comments.csv", index=False)
 
 ### Comment
 
-### 添加留言方法
+#### 添加留言方法
 預設留言物件會跟著文章物件一起建立
 ```python
 post.add_comment(
@@ -132,6 +133,45 @@ post.add_comment(
 + `uuid`：留言的唯一識別碼
 + `created_timestamp`：留言物件建立的時間戳記
 + `modified_timestamp`：留言物件最後一次修改的時間戳記
+
+### Proxy
+提供Proxy介面，自動從`https://www.sslproxies.org/`取得Proxy進行request
+#### 基礎使用
+建立Proxy物件後，使用`request`方法即可進行request，使用方式與`requests`相同
+```python
+from wtti import Proxy
+proxy = Proxy()
+response = proxy.request("https://www.google.com")
+```
+#### 進階使用
+```python
+from wtti import Proxy
+proxy = Proxy(
+    headers={
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36",
+    }, # 手動指定headers
+    cookies={
+        "cookie1": "value1",
+        "cookie2": "value2",
+    }, # 手動指定cookies
+    proxy_mode="score", # 指定proxy的模式，有"score"、"order"、"random"三種模式
+)
+response = proxy.request(
+    "https://www.google.com",
+    max_retries_per_proxy=3, # 指定每個proxy最多重試幾次
+    max_proxies_to_try=3, # 指定最多使用幾個proxy
+    ignore_failure=True, # 如果所有proxy都失敗，是否忽略失敗丟出的Raise
+    use_local=False, # 如果所有proxy都失敗，是否使用本機IP進行request
+)
+```
++ `proxy_mode`：指定proxy的模式，有`score`、`order`、`random`三種模式
+    + `score`：根據proxy的分數來決定使用哪個proxy，分數越高的proxy越優先使用
+        + request成功：分數+3
+        + request失敗：分數-1
+    + `order`：依照proxy的順序來決定使用哪個proxy，越早加入的proxy越優先使用
+    + `random`：隨機選擇proxy
+
+
 
 ## 🤝 貢獻
 如果你發現了一個 bug，或者有任何改進的建議，歡迎提交 issue 或者 pull request。
