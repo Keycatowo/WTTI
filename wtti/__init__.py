@@ -1,4 +1,4 @@
-__version__ = "0.2.1"
+__version__ = "0.3.0"
 
 from .Content import Content # noqa: F401
 from .Text import Text # noqa: F401
