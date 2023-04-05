@@ -33,6 +33,7 @@ class Proxy:
                 max_retries_per_proxy=3, 
                 max_proxies_to_try=3,
                 ignore_failure=True,
+                use_local=False,
     ):
         """使用代理IP發送請求"""
 
@@ -54,8 +55,19 @@ class Proxy:
                     return response
                 except Exception as e:
                     self._record_failure(proxy_ip)
+        
         if not ignore_failure:
             raise Exception("All proxies failed.")
+        
+        if use_local:
+            print("All proxies failed, using local IP.")
+            return requests.request(
+                method=method, 
+                url=url, 
+                data=data,
+                headers=self.headers, 
+                cookies=self.cookies, 
+            )
     
     def get_proxies(self, n=1):
         """取得要嘗試的代理IP
