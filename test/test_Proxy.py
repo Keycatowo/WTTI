@@ -13,5 +13,5 @@ def test_get_proxy_ips():
 # 測試代理IP是否可以正常發送請求
 def test_request():
     proxy = Proxy()
-    response = proxy.request("https://www.example.com")
+    response = proxy.request("https://www.example.com", use_local=True)
     assert response.status_code == 200
